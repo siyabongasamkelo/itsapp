@@ -7,16 +7,13 @@ const UserImg = styled.img.attrs({ src: `${profilepic}` })`
   width: 65px;
   height: 65px;
   border-radius: 10px;
-  margin-left: 30px;
 `;
 
 const LoggedInUserCard = styled.div`
-  height: 50%;
   width: 30%;
 `;
 
 const UserCardAction = styled.div`
-  height: 50%;
   width: 70%;
 `;
 
@@ -39,7 +36,7 @@ const LastSeen = styled.p`
 
 const UserHeadrCard = () => {
   return (
-    <Stack direction="horizontal" style={{ height: "20vh" }}>
+    <Stack direction="horizontal">
       <LoggedInUserCard>
         <Stack direction="horizontal">
           <Stack direction="horizontal">
@@ -61,7 +58,7 @@ const UserHeadrCard = () => {
             <LastSeen>Last seen 2 hours ago</LastSeen>
           </Stack>
 
-          <Button style={{ marginRight: "40px" }}>
+          <Button>
             log out
             <DoorClosed style={{ marginLeft: "10px" }} />
           </Button>

@@ -18,8 +18,8 @@ function App() {
       smallText: "rgba(0,0,0,0.4)",
     },
     size: {
-      small: "10px",
-      medium: "15px",
+      small: "12px",
+      medium: "17px",
       large: "22px",
     },
   };

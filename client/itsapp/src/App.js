@@ -18,7 +18,7 @@ function App() {
       smallText: "rgba(0,0,0,0.4)",
     },
     size: {
-      small: "12px",
+      small: "13px",
       medium: "17px",
       large: "22px",
     },

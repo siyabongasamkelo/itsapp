@@ -9,6 +9,8 @@ import Chat from "./pages/Chat";
 import Header from "./components/header/Header";
 import { InnerWrapper, Wrapper } from "./components/Wrapper.styled";
 import { ThemeProvider } from "styled-components";
+import Login from "./components/login/Login";
+import Register from "./components/register/Register";
 
 function App() {
   const theme = {
@@ -27,8 +29,10 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        <Route index element={<Chat />} />
-        <Route path="/" element={<Chat />} />
+        <Route index element={<Login />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Login />} />
       </Route>
     )
   );

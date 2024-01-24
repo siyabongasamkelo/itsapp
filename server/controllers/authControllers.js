@@ -15,39 +15,42 @@ const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
     const image = req.files;
 
-    let user = await userModel.findOne({ email });
+    console.log(req);
+    res.json("working");
 
-    if (user) return res.status(400).json("User already exists");
+    // let user = await userModel.findOne({ email });
 
-    if (!username || !email || !password || !image)
-      return res.status(400).json("All fields are required");
+    // if (user) return res.status(400).json("User already exists");
 
-    if (!validator.isEmail(email)) return res.status(400).json("Invalid email");
+    // if (!username || !email || !password || !image)
+    //   return res.status(400).json("All fields are required");
 
-    if (!validator.isStrongPassword(password))
-      return res.status(400).json("Password not strong enough");
+    // if (!validator.isEmail(email)) return res.status(400).json("Invalid email");
 
-    //uploading image file to cloudinary
-    const uploadImage = await cloudinary.uploader
-      .upload(image.file.tempFilePath)
-      .catch((err) => {
-        res.status(400).json("an error occured while uploading your photo");
-        console.log(err);
-        return;
-      });
+    // if (!validator.isStrongPassword(password))
+    //   return res.status(400).json("Password not strong enough");
 
-    let imageUrl = uploadImage.secure_url;
+    // //uploading image file to cloudinary
+    // const uploadImage = await cloudinary.uploader
+    //   .upload(image.file.tempFilePath)
+    //   .catch((err) => {
+    //     res.status(400).json("an error occured while uploading your photo");
+    //     console.log(err);
+    //     return;
+    //   });
 
-    user = new userModel({ username, email, password, image: imageUrl });
+    // let imageUrl = uploadImage.secure_url;
 
-    const salt = await bcrypt.genSalt();
-    user.password = await bcrypt.hash(user.password, salt);
+    // user = new userModel({ username, email, password, image: imageUrl });
 
-    await user.save();
+    // const salt = await bcrypt.genSalt();
+    // user.password = await bcrypt.hash(user.password, salt);
 
-    const token = createToken(user._id);
+    // await user.save();
 
-    res.status(200).json({ _id: user._id, name, email, token });
+    // const token = createToken(user._id);
+
+    // res.status(200).json({ _id: user._id, name, email, token });
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ error });

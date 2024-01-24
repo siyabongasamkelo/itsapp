@@ -14,7 +14,7 @@ const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const image = req.files;
-
+    //
     console.log(req);
     res.json("working");
 

@@ -3,12 +3,14 @@ const cors = require("cors");
 require("dotenv").config();
 const helmet = require("helmet");
 const mongoose = require("mongoose");
+const fileupload = require("express-fileupload");
 const authRouter = require("./routes/authRoutes");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
+app.use(fileupload({ useTempFiles: true }));
 
 app.use("/user", authRouter);
 

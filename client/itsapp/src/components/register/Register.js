@@ -2,7 +2,6 @@ import { Button, Alert } from "react-bootstrap";
 import styled from "styled-components";
 import { TextBox } from "../TextBox";
 import { useState } from "react";
-import axios from "axios";
 import { baseUrl, postRequest } from "../../utils/Services";
 
 export const FormHeader = styled.h3`
@@ -31,10 +30,12 @@ export const Label = styled.label`
 
 export const TextBoxs = styled(TextBox)`
   margin: 0;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const Register = () => {
+  const [isUserRegisterLoading, setIsUserRegisterLoading] = useState(false);
+  const [userRegisterError, setUserRegisterError] = useState(null);
   const [userRegisterInfo, setUserRegisterInfo] = useState({
     username: "",
     email: "",
@@ -42,27 +43,28 @@ const Register = () => {
     image: null,
   });
 
-  console.log(userRegisterInfo);
-
   const registerUser = async () => {
+    //i do these bcz it's the only way i know to send files to the server
+    //if anyone knows a better cleaner way plz let know
     const formData = new FormData();
     formData.append("image", userRegisterInfo.image);
     formData.append("username", userRegisterInfo.username);
     formData.append("email", userRegisterInfo.email);
     formData.append("password", userRegisterInfo.password);
+    setIsUserRegisterLoading(true);
+    setUserRegisterError(null);
+    try {
+      const response = await postRequest(`${baseUrl}/user/register`, formData);
 
-    // axios
-    //   .post(`${baseUrl}/user/register`, formData)
-    //   .then((res) => {
-    //     console.log(res);
-    //     localStorage.setItem("User", JSON.stringify(res.data));
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
-    const response = await postRequest(`${baseUrl}/user/register`, formData);
-    console.log(response);
+      //if theres an error
+      if (response.error) {
+        setIsUserRegisterLoading(false);
+        setUserRegisterError(response.data.response.data);
+      }
+    } catch (err) {
+      console.log(err);
+      setIsUserRegisterLoading(false);
+    }
   };
 
   return (
@@ -128,8 +130,20 @@ const Register = () => {
               style={{ width: "90%" }}
               onClick={registerUser}
             >
-              Login
+              {isUserRegisterLoading ? "Registering..." : "Register"}
             </Button>
+          </div>
+          <div>
+            {userRegisterError ? (
+              <Alert
+                variant="danger"
+                style={{ width: "90%", marginTop: "20px" }}
+              >
+                {userRegisterError}
+              </Alert>
+            ) : (
+              ""
+            )}
           </div>
         </Form>
       </div>

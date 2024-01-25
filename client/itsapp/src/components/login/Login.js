@@ -28,8 +28,9 @@ const Login = () => {
       });
 
       setIsUserLoginLoading(false);
-      if (response) return setUserLoginError(response.data.response.data);
-      localStorage.setItem("User", JSON.stringify(response));
+      if (response.error) return setUserLoginError(response.data.response.data);
+
+      localStorage.setItem("User", JSON.stringify(response.data));
     } catch (err) {
       setIsUserLoginLoading(false);
     }

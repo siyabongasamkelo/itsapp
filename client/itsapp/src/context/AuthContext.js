@@ -33,11 +33,6 @@ export const AuthContextProvider = ({ children }) => {
       formData.append("email", registerInfo.email);
       formData.append("password", registerInfo.password);
 
-      //   const response = await postRequest(
-      //     `${baseUrl}/user/register`,
-      //     // JSON.stringify(formData)
-      //     formData
-      //   );
       let response;
       axios
         .post(`${baseUrl}/user/register`, registerInfo)

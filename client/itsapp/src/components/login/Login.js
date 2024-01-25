@@ -8,6 +8,14 @@ export const LoginStyles = styled.div`
   margin-top: 5%;
 `;
 
+export const FormHeader = styled.h3`
+  font-size: ${(props) => props.theme.size.extraLarge};
+  color: ${(props) => props.theme.light.text};
+  font-weight: 700;
+  text-align: center;
+  padding-bottom: 30px;
+`;
+
 export const Form = styled.form`
   height: 550px;
   width: 380px;
@@ -28,6 +36,7 @@ const Login = () => {
     <LoginStyles>
       <div className=" d-flex justify-content-center ">
         <Form>
+          <FormHeader>Login</FormHeader>
           <div>
             <Label>Email : </Label>
 

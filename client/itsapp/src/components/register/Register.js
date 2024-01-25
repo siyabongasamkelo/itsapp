@@ -3,30 +3,7 @@ import styled from "styled-components";
 import { TextBox } from "../TextBox";
 import { useState } from "react";
 import { baseUrl, postRequest } from "../../utils/Services";
-
-export const FormHeader = styled.h3`
-  font-size: ${(props) => props.theme.size.extraLarge};
-  color: ${(props) => props.theme.light.text};
-  font-weight: 700;
-  text-align: center;
-  padding-bottom: 30px;
-`;
-
-export const LoginStyles = styled.div`
-  height: 80%;
-  width: 100%;
-  margin-top: 5%;
-`;
-
-export const Form = styled.form`
-  height: 550px;
-  width: 380px;
-`;
-
-export const Label = styled.label`
-  font-size: 14px;
-  color: ${(props) => props.theme.light.smallText};
-`;
+import { Form, FormHeader, FormStyles, Label } from "../FormStyles.styled";
 
 export const TextBoxs = styled(TextBox)`
   margin: 0;
@@ -56,11 +33,11 @@ const Register = () => {
     try {
       const response = await postRequest(`${baseUrl}/user/register`, formData);
 
-      //if theres an error
-      if (response.error) {
-        setIsUserRegisterLoading(false);
-        setUserRegisterError(response.data.response.data);
-      }
+      setIsUserRegisterLoading(false);
+      if (response.error)
+        return setUserRegisterError(response.data.response.data);
+
+      localStorage.setItem("User", JSON.stringify(response));
     } catch (err) {
       console.log(err);
       setIsUserRegisterLoading(false);
@@ -68,7 +45,7 @@ const Register = () => {
   };
 
   return (
-    <LoginStyles>
+    <FormStyles>
       <div className=" d-flex justify-content-center ">
         <Form>
           <FormHeader>Register</FormHeader>
@@ -134,20 +111,18 @@ const Register = () => {
             </Button>
           </div>
           <div>
-            {userRegisterError ? (
+            {userRegisterError && (
               <Alert
                 variant="danger"
                 style={{ width: "90%", marginTop: "20px" }}
               >
                 {userRegisterError}
               </Alert>
-            ) : (
-              ""
             )}
           </div>
         </Form>
       </div>
-    </LoginStyles>
+    </FormStyles>
   );
 };
 

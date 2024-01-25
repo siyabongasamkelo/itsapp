@@ -23,6 +23,7 @@ function App() {
       small: "13px",
       medium: "17px",
       large: "22px",
+      extraLarge: "32px",
     },
   };
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Login />} />
+        <Route path="/*" element={<Login />} />
       </Route>
     )
   );

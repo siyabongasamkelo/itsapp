@@ -1,30 +1,9 @@
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import styled from "styled-components";
 import { TextBox } from "../TextBox";
-
-export const LoginStyles = styled.div`
-  height: 80%;
-  width: 100%;
-  margin-top: 5%;
-`;
-
-export const FormHeader = styled.h3`
-  font-size: ${(props) => props.theme.size.extraLarge};
-  color: ${(props) => props.theme.light.text};
-  font-weight: 700;
-  text-align: center;
-  padding-bottom: 30px;
-`;
-
-export const Form = styled.form`
-  height: 550px;
-  width: 380px;
-`;
-
-export const Label = styled.label`
-  font-size: 14px;
-  color: ${(props) => props.theme.light.smallText};
-`;
+import { useState } from "react";
+import { baseUrl, postRequest } from "../../utils/Services";
+import { Form, FormHeader, FormStyles, Label } from "../FormStyles.styled";
 
 export const TextBoxs = styled(TextBox)`
   margin: 0;
@@ -32,29 +11,77 @@ export const TextBoxs = styled(TextBox)`
 `;
 
 const Login = () => {
+  const [isUserloginLoading, setIsUserLoginLoading] = useState(false);
+  const [userLoginError, setUserLoginError] = useState(null);
+  const [userLoginInfo, setUserLoginInfo] = useState({
+    email: "",
+    password: "",
+  });
+
+  const loginUser = async () => {
+    setIsUserLoginLoading(true);
+    setUserLoginError(null);
+    try {
+      const response = await postRequest(`${baseUrl}/user/login`, {
+        email: userLoginInfo.email,
+        password: userLoginInfo.password,
+      });
+
+      setIsUserLoginLoading(false);
+      if (response) return setUserLoginError(response.data.response.data);
+      localStorage.setItem("User", JSON.stringify(response));
+    } catch (err) {
+      setIsUserLoginLoading(false);
+    }
+  };
+
   return (
-    <LoginStyles>
+    <FormStyles>
       <div className=" d-flex justify-content-center ">
         <Form>
           <FormHeader>Login</FormHeader>
           <div>
             <Label>Email : </Label>
 
-            <TextBoxs />
+            <TextBoxs
+              type="email"
+              onChange={(e) =>
+                setUserLoginInfo({ ...userLoginInfo, email: e.target.value })
+              }
+            />
           </div>
           <div>
             <Label>Password :</Label>
 
-            <TextBoxs />
+            <TextBoxs
+              type="password"
+              onChange={(e) =>
+                setUserLoginInfo({ ...userLoginInfo, password: e.target.value })
+              }
+            />
           </div>
           <div>
-            <Button className=" mt-4 " style={{ width: "90%" }}>
-              Login
+            <Button
+              className=" mt-4 "
+              style={{ width: "90%" }}
+              onClick={loginUser}
+            >
+              {isUserloginLoading ? "Logging in..." : "Login"}
             </Button>
+          </div>
+          <div>
+            {userLoginError && (
+              <Alert
+                style={{ width: "90%", marginTop: "20px" }}
+                variant="danger"
+              >
+                {userLoginError}
+              </Alert>
+            )}
           </div>
         </Form>
       </div>
-    </LoginStyles>
+    </FormStyles>
   );
 };
 

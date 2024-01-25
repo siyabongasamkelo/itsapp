@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    usename: {
+    username: {
       type: String,
       required: true,
       minlength: 3,
@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 3,
-      maxlength: 30,
+      maxlength: 100,
     },
     email: {
       type: String,

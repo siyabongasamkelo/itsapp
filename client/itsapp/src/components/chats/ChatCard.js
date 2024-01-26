@@ -1,6 +1,8 @@
+import { useContext } from "react";
 import { Stack } from "react-bootstrap";
 import styled from "styled-components";
-import profilepic from "../img/propic5.jpg";
+import { ChatContext } from "../../context/ChatContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Chatstyles = styled.div`
   width: 90%;
@@ -26,10 +28,12 @@ const ChatstylesCover = styled.div`
   width: 90%;
 `;
 
-const UserImg = styled.img.attrs({ src: `${profilepic}` })`
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
+const UserImg = styled.div`
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+  }
 `;
 
 const Username = styled.h3`
@@ -46,19 +50,23 @@ const MessageDate = styled.p`
 
 const ShortMessage = styled(MessageDate)``;
 
-const ChatCard = () => {
+const ChatCard = ({ chat }) => {
+  const { user } = useContext(AuthContext);
+  const { createChatRoom } = useContext(ChatContext);
   return (
-    <Chatstyles>
+    <Chatstyles onClick={() => createChatRoom(user._id, chat._id)}>
       <ChatstylesCover>
         <Stack direction="horizontal">
-          <UserImg />
+          <UserImg>
+            <img src={chat.image} alt="profile pictures" />
+          </UserImg>
           <Stack direction="vertical" style={{ marginLeft: "10px" }}>
             <Stack
               direction="horizontal"
               style={{ width: "90%" }}
               className=" justify-content-between "
             >
-              <Username>Siya Samkelo</Username>
+              <Username>{chat.username}</Username>
               <MessageDate>Thursday</MessageDate>
             </Stack>
             <ShortMessage>Voice mesasge</ShortMessage>

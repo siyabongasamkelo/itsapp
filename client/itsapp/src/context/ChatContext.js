@@ -24,7 +24,7 @@ export const ChatContextProvider = ({ children, user }) => {
   useEffect(() => {
     const getAllChats = async () => {
       const getChats = await getUsers();
-      setChats(getChats);
+      setChats(getChats?.data?.data);
     };
     getAllChats();
   }, [user]);

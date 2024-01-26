@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ChatCartegory = styled.div`
   height: 50px;
   width: 60px;
-  margin-top: 30px;
+  /* margin-top: 30px; */
   display: flex;
   justify-content: center;
   align-items: center;

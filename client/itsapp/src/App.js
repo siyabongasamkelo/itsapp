@@ -11,8 +11,12 @@ import { InnerWrapper, Wrapper } from "./components/Wrapper.styled";
 import { ThemeProvider } from "styled-components";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
+import { ChatContextProvider } from "./context/ChatContext";
 
 function App() {
+  const { user } = useContext(AuthContext);
   const theme = {
     light: {
       primary: "#0d6efd", //"#39A7FF",
@@ -40,16 +44,18 @@ function App() {
   );
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Container>
-          <Wrapper>
-            <InnerWrapper>
-              <Header />
-              <RouterProvider router={router} />
-            </InnerWrapper>
-          </Wrapper>
-        </Container>
-      </ThemeProvider>
+      <ChatContextProvider user={user}>
+        <ThemeProvider theme={theme}>
+          <Container>
+            <Wrapper>
+              <InnerWrapper>
+                <Header />
+                <RouterProvider router={router} />
+              </InnerWrapper>
+            </Wrapper>
+          </Container>
+        </ThemeProvider>
+      </ChatContextProvider>
     </>
   );
 }

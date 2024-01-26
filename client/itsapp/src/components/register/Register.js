@@ -37,7 +37,7 @@ const Register = () => {
       if (response.error)
         return setUserRegisterError(response.data.response.data);
 
-      localStorage.setItem("User", JSON.stringify(response));
+      localStorage.setItem("User", JSON.stringify(response.data));
     } catch (err) {
       console.log(err);
       setIsUserRegisterLoading(false);

@@ -50,11 +50,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send-message", async (message) => {
-    const newMessage = new messages.create(message);
+    const newMessage = new messages(message);
     await newMessage.save();
 
+    const chatRoom = message.chatRoom;
+
     io.to(chatRoom).emit("get-live-message", message);
-    console.log(message);
   });
 
   socket.on("disconnect", () => {

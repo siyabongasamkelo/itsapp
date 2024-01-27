@@ -8,6 +8,7 @@ const authRouter = require("./routes/authRoutes");
 const chatRouter = require("./routes/chatRoutes");
 const messageRouter = require("./routes/messageRoutes");
 const { Server } = require("socket.io");
+const messages = require("./models/messagesModel");
 
 const app = express();
 //setting up socketIo
@@ -26,7 +27,7 @@ app.use(fileupload({ useTempFiles: true }));
 
 app.use("/user", authRouter);
 app.use("/chats", chatRouter);
-app.use("/message", messageRouter);
+app.use("/messages", messageRouter);
 
 const uri = process.env.MONGO_URL;
 
@@ -42,6 +43,19 @@ mongoose
 
 io.on("connection", (socket) => {
   console.log(`user ${socket.id} joined`);
+
+  socket.on("join-room", async (chatRoom) => {
+    socket.join(chatRoom);
+    console.log(`User with ID: ${socket.id} joined room: ${chatRoom}`);
+  });
+
+  socket.on("send-message", async (message) => {
+    const newMessage = new messages.create(message);
+    await newMessage.save();
+
+    io.to(chatRoom).emit("get-live-message", message);
+    console.log(message);
+  });
 
   socket.on("disconnect", () => {
     console.log(`User Disconnencted: ${socket.id}`);

@@ -1,9 +1,10 @@
 import { Button, Alert } from "react-bootstrap";
 import styled from "styled-components";
 import { TextBox } from "../TextBox";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { baseUrl, postRequest } from "../../utils/Services";
 import { Form, FormHeader, FormStyles, Label } from "../FormStyles.styled";
+import { AuthContext } from "../../context/AuthContext";
 
 export const TextBoxs = styled(TextBox)`
   margin: 0;
@@ -11,6 +12,7 @@ export const TextBoxs = styled(TextBox)`
 `;
 
 const Login = () => {
+  const { setUser } = useContext(AuthContext);
   const [isUserloginLoading, setIsUserLoginLoading] = useState(false);
   const [userLoginError, setUserLoginError] = useState(null);
   const [userLoginInfo, setUserLoginInfo] = useState({
@@ -31,6 +33,8 @@ const Login = () => {
       if (response.error) return setUserLoginError(response.data.response.data);
 
       localStorage.setItem("User", JSON.stringify(response.data));
+      // setUser(response.data.data._id);
+      setUser(response.data);
     } catch (err) {
       setIsUserLoginLoading(false);
     }

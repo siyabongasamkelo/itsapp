@@ -3,6 +3,8 @@ import { Stack } from "react-bootstrap";
 import styled from "styled-components";
 import { ChatContext } from "../../context/ChatContext";
 import { AuthContext } from "../../context/AuthContext";
+import { baseUrl } from "../../utils/Services";
+import axios from "axios";
 
 const Chatstyles = styled.div`
   width: 90%;
@@ -52,9 +54,44 @@ const ShortMessage = styled(MessageDate)``;
 
 const ChatCard = ({ chat }) => {
   const { user } = useContext(AuthContext);
-  const { createChatRoom } = useContext(ChatContext);
+  const {
+    createChatRoom,
+    getChatMessages,
+    setRoomMessages,
+    findChatRoom,
+    joinRoom,
+  } = useContext(ChatContext);
+
+  const findOrCreateChat = async (creater, joiner) => {
+    const room = await findChatRoom(creater, joiner);
+    if (!room) {
+      console.log("room not found");
+      const room = await createChatRoom(creater, joiner);
+      return room;
+    }
+    return room;
+  };
+  // console.log(user.data._id);
+  // console.log(chat._id);
+
   return (
-    <Chatstyles onClick={() => createChatRoom(user._id, chat._id)}>
+    <Chatstyles
+      onClick={async () => {
+        const chatRoom = await axios.post(`${baseUrl}/chats/get`, {
+          creater: user?.data?._id,
+          joiner: chat?._id,
+        });
+
+        joinRoom(chatRoom?.data?._id);
+
+        const roomMessages = await axios.get(
+          `${baseUrl}/messages/get/${chatRoom?.data?._id}`
+        );
+        setRoomMessages(roomMessages?.data);
+
+        // console.log(chatRoom?.data?._id);
+      }}
+    >
       <ChatstylesCover>
         <Stack direction="horizontal">
           <UserImg>

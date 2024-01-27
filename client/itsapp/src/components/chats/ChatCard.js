@@ -54,25 +54,8 @@ const ShortMessage = styled(MessageDate)``;
 
 const ChatCard = ({ chat }) => {
   const { user } = useContext(AuthContext);
-  const {
-    createChatRoom,
-    getChatMessages,
-    setRoomMessages,
-    findChatRoom,
-    joinRoom,
-  } = useContext(ChatContext);
-
-  const findOrCreateChat = async (creater, joiner) => {
-    const room = await findChatRoom(creater, joiner);
-    if (!room) {
-      console.log("room not found");
-      const room = await createChatRoom(creater, joiner);
-      return room;
-    }
-    return room;
-  };
-  // console.log(user.data._id);
-  // console.log(chat._id);
+  const { setRoomMessages, joinRoom, updateCurrentMessage } =
+    useContext(ChatContext);
 
   return (
     <Chatstyles
@@ -89,7 +72,12 @@ const ChatCard = ({ chat }) => {
         );
         setRoomMessages(roomMessages?.data);
 
-        // console.log(chatRoom?.data?._id);
+        updateCurrentMessage({
+          author: user?.data?._id,
+          reciever: roomMessages?.data[0].reciever,
+          text: "",
+          chatRoom: chatRoom?.data?._id,
+        });
       }}
     >
       <ChatstylesCover>

@@ -20,9 +20,9 @@ const messagesSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    groupChat: {
+    chatRoom: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: "groupChat",
+      ref: "ChatRoom",
     },
   },
   {

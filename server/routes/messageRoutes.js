@@ -3,6 +3,6 @@ const router = express.Router();
 const messageControllers = require("../controllers/messageControllers");
 
 router.post("/create", messageControllers.createMessage);
-router.get("/get", messageControllers.getMessages);
+router.get("/get/:chatRoom", messageControllers.getMessages);
 
 module.exports = router;

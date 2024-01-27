@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import MesageCard from "./MesageCard";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
 import { AuthContext } from "../../context/AuthContext";
-import InputEmoji from "react-input-emoji";
+// import InputEmoji from "react-input-emoji";
 import { Button, Stack } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
+import { TextBox } from "../TextBox";
 
 export const ChatBoxStyles = styled.div`
   height: 70vh;
@@ -15,6 +16,7 @@ export const ChatBoxStyles = styled.div`
 export const MessageCover = styled.div`
   height: 80%;
   margin-bottom: 30px;
+  overflow-y: scroll;
 `;
 
 const FirstMessageDate = styled.p`
@@ -25,16 +27,9 @@ const FirstMessageDate = styled.p`
 `;
 
 const ChatBox = () => {
-  const { RoomMessages, sendMessage } = useContext(ChatContext);
+  const { RoomMessages, sendMessage, updateCurrentMessage, currentMessages } =
+    useContext(ChatContext);
   const { user } = useContext(AuthContext);
-
-  const [textMessage, setTextMessage] = useState("");
-  const [currentMessage, setCurrentMessage] = useState({
-    author: user?.data?._id,
-    reciever: RoomMessages.reciever,
-    text: textMessage,
-    chatRoom: RoomMessages.chatRoom,
-  });
 
   return (
     <ChatBoxStyles>
@@ -54,7 +49,7 @@ const ChatBox = () => {
               <MesageCard
                 key={index}
                 message={message?.text}
-                isCurrentUser={user._id === message.author}
+                isCurrentUser={!user._id === message.author}
               />
             ))
           ) : (
@@ -63,18 +58,16 @@ const ChatBox = () => {
         </div>
       </MessageCover>
       <Stack direction="horizontal">
-        <InputEmoji
-          value={textMessage}
-          onChange={setTextMessage}
-          cleanOnEnter
-          // onEnter={() => {
-          //   sendMessage(currentMessage);
-          // }}
-          placeholder="Type your message here"
+        <TextBox
+          onChange={(e) => {
+            updateCurrentMessage({ ...currentMessages, text: e.target.value });
+          }}
         />
         <Button
           className=" rounded-5 "
-          onClick={() => sendMessage(currentMessage)}
+          onClick={() => {
+            sendMessage();
+          }}
         >
           <Send style={{ transform: "scale(200%)" }} />
         </Button>

@@ -2,14 +2,14 @@ const messages = require("../models/messagesModel");
 
 const createMessage = async (req, res) => {
   try {
-    const { author, reciever, text, groupChat } = req.body;
+    const { author, reciever, text, chatRoom } = req.body;
 
-    if (!author || !reciever || !text || !groupChat)
+    if (!author || !reciever || !text || !chatRoom)
       return res
         .status(400)
-        .json("author, reciever, text & groupChat are required");
+        .json("author, reciever, text & chatRoom are required");
 
-    const message = new messages({ author, reciever, text, groupChat });
+    const message = new messages({ author, reciever, text, chatRoom });
     await message.save();
 
     res.status(200).json("message created successfully");
@@ -21,15 +21,15 @@ const createMessage = async (req, res) => {
 
 const getMessages = async (req, res) => {
   try {
-    const { groupChatId } = req.params;
+    const { chatRoom } = req.params;
 
-    if (!groupChatId) return res.status(400).json(" groupChat is required");
+    if (!chatRoom) return res.status(400).json(" chatRoom is required");
 
-    const messages = messages.find({ groupChat: groupChatId });
+    const textMessages = await messages.find({ chatRoom: chatRoom });
 
-    res.status(200).json("message created successfully");
+    res.status(200).json(textMessages);
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     res.status(400).json({ error });
   }
 };

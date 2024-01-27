@@ -3,7 +3,6 @@ import { io } from "socket.io-client";
 import { baseUrl, postRequest } from "../utils/Services";
 import { getUsers } from "../hooks/useGetUsers";
 import { getMessages } from "../hooks/useGetMessages";
-import axios from "axios";
 
 export const ChatContext = createContext();
 
@@ -12,8 +11,12 @@ export const ChatContextProvider = ({ children, user }) => {
   const [chats, setChats] = useState([]);
   const [room, setRoom] = useState(null);
   const [RoomMessages, setRoomMessages] = useState([]);
-
-  console.log("messages", RoomMessages);
+  const [currentMessages, setCurrentMessages] = useState({
+    author: "",
+    reciever: "",
+    text: "",
+    chatRoom: "",
+  });
 
   //connecting socket io
   useEffect(() => {
@@ -54,12 +57,18 @@ export const ChatContextProvider = ({ children, user }) => {
     }
   };
 
+  //updating current message state
+  const updateCurrentMessage = useCallback((currentMessage) => {
+    setCurrentMessages(currentMessage);
+  }, []);
+
   //send live message
-  const sendMessage = async (message) => {
+  const sendMessage = async () => {
     if (socket === null) return;
-    if (!message) return;
+    // if (!currentMessages) return;
     try {
-      await socket.emit("send-message", message);
+      console.log("sending your message");
+      await socket.emit("send-message", currentMessages);
     } catch (err) {
       console.log(err);
     }
@@ -103,6 +112,8 @@ export const ChatContextProvider = ({ children, user }) => {
         setRoomMessages,
         sendMessage,
         joinRoom,
+        currentMessages,
+        updateCurrentMessage,
       }}
     >
       {children}

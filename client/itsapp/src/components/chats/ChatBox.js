@@ -31,6 +31,9 @@ const ChatBox = () => {
     useContext(ChatContext);
   const { user } = useContext(AuthContext);
 
+  // console.log(user.data._id);
+  // console.log(RoomMessages[0].author);
+
   return (
     <ChatBoxStyles>
       <MessageCover>
@@ -38,18 +41,12 @@ const ChatBox = () => {
           <FirstMessageDate>Yesterday</FirstMessageDate>
         </div>
         <div>
-          <MesageCard
-            message={
-              "this is a message im using to test how it'll work with thechat...."
-            }
-            isCurrentUser={true}
-          />
           {RoomMessages ? (
             RoomMessages?.map((message, index) => (
               <MesageCard
                 key={index}
                 message={message?.text}
-                isCurrentUser={!user._id === message.author}
+                isCurrentUser={user?.data?._id === message.author}
               />
             ))
           ) : (
@@ -62,6 +59,7 @@ const ChatBox = () => {
           onChange={(e) => {
             updateCurrentMessage({ ...currentMessages, text: e.target.value });
           }}
+          value={currentMessages?.text}
         />
         <Button
           className=" rounded-5 "

@@ -31,7 +31,13 @@ export const ChatContextProvider = ({ children, user }) => {
   useEffect(() => {
     const getAllChats = async () => {
       const getChats = await getUsers();
-      setChats(getChats?.data?.data);
+
+      const removeCurrentUser = getChats?.data?.data?.filter(
+        (chat) => chat?._id !== user?.data?._id
+      );
+
+      //   setChats(getChats?.data?.data);
+      setChats(removeCurrentUser);
     };
     getAllChats();
   }, [user]);
@@ -67,8 +73,8 @@ export const ChatContextProvider = ({ children, user }) => {
     if (socket === null) return;
     // if (!currentMessages) return;
     try {
-      console.log("sending your message");
       await socket.emit("send-message", currentMessages);
+      updateCurrentMessage({ ...currentMessages, text: "" });
     } catch (err) {
       console.log(err);
     }

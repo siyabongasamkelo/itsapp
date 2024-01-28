@@ -2,10 +2,12 @@ import styled from "styled-components";
 import profilepic from "../img/propic5.jpg";
 import { Stack } from "react-bootstrap";
 
-const UserImg = styled.img.attrs({ src: `${profilepic}` })`
-  width: 60px;
-  height: 60px;
-  border-radius: 10px;
+export const ProfilePic = styled.div`
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+  }
 `;
 
 export const MessageCardStyles = styled.div`
@@ -27,7 +29,7 @@ const Time = styled.p`
 const MessageCover = styled.div`
   border-radius: 20px;
   max-width: 80%;
-  padding: 10px;
+  padding: 10px 30px 10px 20px;
   background-color: ${(props) =>
     props.isCurrentUser ? "rgba(0,0,0,0.3)" : "#0d6efd"};
   color: white;
@@ -69,7 +71,10 @@ const MesageCard = ({ message, isCurrentUser }) => {
         ) : (
           <Stack direction="horizontal">
             <div>
-              <UserImg />
+              {/* <UserImg /> */}
+              <ProfilePic>
+                <img src={profilepic} alt="profile" />
+              </ProfilePic>
               <Time>5:11 PM</Time>
             </div>
             <div style={{ marginLeft: "15px" }}>

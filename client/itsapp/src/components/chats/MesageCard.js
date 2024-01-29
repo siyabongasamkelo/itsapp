@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import profilepic from "../img/propic5.jpg";
 import { Stack } from "react-bootstrap";
+import moment from "moment";
 
 export const ProfilePic = styled.div`
   img {
@@ -65,7 +66,8 @@ const MesageCard = ({ message, isCurrentUser }) => {
               >
                 {message}
               </CurrentUserMessageCover>
-              <Time>5:11 PM</Time>
+              {/* <Time>5:11 PM</Time> */}
+              <Time>{moment(message?.createdAt).calendar()}</Time>
             </div>
           </div>
         ) : (

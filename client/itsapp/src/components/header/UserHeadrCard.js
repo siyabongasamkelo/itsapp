@@ -1,41 +1,15 @@
-import styled from "styled-components";
 import { Button, Stack } from "react-bootstrap";
 import { Bell, PlusCircle, DoorClosed } from "react-bootstrap-icons";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-
-export const ProfilePic = styled.div`
-  img {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-  }
-`;
-
-const LoggedInUserCard = styled.div`
-  width: 30%;
-`;
-
-const UserCardAction = styled.div`
-  width: 70%;
-`;
-
-const UserName = styled.h3`
-  color: ${(props) => props.theme.light.text};
-  padding-left: 10px;
-  font-size: ${(props) => props.theme.size.large};
-  font-weight: 700;
-`;
-
-const ChatName = styled.h3`
-  color: ${(props) => props.theme.light.text};
-  font-size: ${(props) => props.theme.size.medium};
-`;
-
-const LastSeen = styled.p`
-  color: ${(props) => props.theme.light.smallText};
-  font-size: ${(props) => props.theme.size.small};
-`;
+import {
+  ChatName,
+  LastSeen,
+  LoggedInUserCard,
+  ProfilePic,
+  UserCardAction,
+  UserName,
+} from "./UserHeaderStyls.Styled";
 
 const UserHeadrCard = () => {
   const { user } = useContext(AuthContext);

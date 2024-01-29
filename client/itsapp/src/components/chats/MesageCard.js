@@ -2,47 +2,14 @@ import styled from "styled-components";
 import profilepic from "../img/propic5.jpg";
 import { Stack } from "react-bootstrap";
 import moment from "moment";
-
-export const ProfilePic = styled.div`
-  img {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-  }
-`;
-
-export const MessageCardStyles = styled.div`
-  width: 100%;
-  margin-top: 25px;
-  cursor: pointer;
-`;
-
-export const MessageCardStylesCover = styled.div`
-  width: 60%;
-`;
-
-const Time = styled.p`
-  color: ${(props) => props.theme.light.smallText};
-  font-size: ${(props) => props.theme.size.small};
-  margin-top: 5px;
-`;
-
-const MessageCover = styled.div`
-  border-radius: 20px;
-  max-width: 80%;
-  padding: 10px 30px 10px 20px;
-  background-color: ${(props) =>
-    props.isCurrentUser ? "rgba(0,0,0,0.3)" : "#0d6efd"};
-  color: white;
-`;
-
-const CurrentUserMessageCover = styled.div`
-  border-radius: 20px;
-  padding: 10px;
-  background-color: ${(props) =>
-    props.isCurrentUser ? "rgba(0,0,0,0.3)" : "#0d6efd"};
-  color: white;
-`;
+import {
+  CurrentUserMessageCover,
+  MessageCardStyles,
+  MessageCardStylesCover,
+  MessageCover,
+  ProfilePic,
+  Time,
+} from "./MessageCardStyles.styled";
 
 const Name = styled(Time)`
   margin-top: 0;
@@ -66,14 +33,13 @@ const MesageCard = ({ message, isCurrentUser }) => {
               >
                 {message}
               </CurrentUserMessageCover>
-              {/* <Time>5:11 PM</Time> */}
+
               <Time>{moment(message?.createdAt).calendar()}</Time>
             </div>
           </div>
         ) : (
           <Stack direction="horizontal">
             <div>
-              {/* <UserImg /> */}
               <ProfilePic>
                 <img src={profilepic} alt="profile" />
               </ProfilePic>

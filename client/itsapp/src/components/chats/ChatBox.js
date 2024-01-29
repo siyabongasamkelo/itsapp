@@ -1,30 +1,15 @@
-import styled from "styled-components";
 import MesageCard from "./MesageCard";
 import { useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
 import { AuthContext } from "../../context/AuthContext";
-// import InputEmoji from "react-input-emoji";
 import { Button, Stack } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
 import { TextBox } from "../TextBox";
-
-export const ChatBoxStyles = styled.div`
-  height: 70vh;
-  width: 70%;
-  /* overflow-y: scroll; */
-`;
-export const MessageCover = styled.div`
-  height: 80%;
-  margin-bottom: 30px;
-  overflow-y: scroll;
-`;
-
-const FirstMessageDate = styled.p`
-  color: ${(props) => props.theme.light.smallText};
-  font-size: ${(props) => props.theme.size.small};
-  text-align: center;
-  margin-top: 60px;
-`;
+import {
+  ChatBoxStyles,
+  FirstMessageDate,
+  MessageCover,
+} from "./ChatBoxStyles.styled";
 
 const ChatBox = () => {
   const { RoomMessages, sendMessage, updateCurrentMessage, currentMessages } =

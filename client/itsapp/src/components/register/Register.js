@@ -1,9 +1,11 @@
 import { Button, Alert } from "react-bootstrap";
 import styled from "styled-components";
 import { TextBox } from "../TextBox";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { baseUrl, postRequest } from "../../utils/Services";
 import { Form, FormHeader, FormStyles, Label } from "../FormStyles.styled";
+import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 export const TextBoxs = styled(TextBox)`
   margin: 0;
@@ -19,6 +21,12 @@ const Register = () => {
     password: "",
     image: null,
   });
+  const { setUser } = useContext(AuthContext);
+
+  const notify = (err) =>
+    toast.error(
+      err || "the was a problem registering you in please try again later"
+    );
 
   const registerUser = async () => {
     //i do these bcz it's the only way i know to send files to the server
@@ -38,8 +46,10 @@ const Register = () => {
         return setUserRegisterError(response.data.response.data);
 
       localStorage.setItem("User", JSON.stringify(response.data));
+      setUser(response.data);
     } catch (err) {
       console.log(err);
+      notify(err);
       setIsUserRegisterLoading(false);
     }
   };

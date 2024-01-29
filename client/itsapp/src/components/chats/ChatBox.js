@@ -31,9 +31,6 @@ const ChatBox = () => {
     useContext(ChatContext);
   const { user } = useContext(AuthContext);
 
-  // console.log(user.data._id);
-  // console.log(RoomMessages[0].author);
-
   return (
     <ChatBoxStyles>
       <MessageCover>

@@ -1,12 +1,15 @@
 import styled from "styled-components";
-import profilepic from "../img/propic5.jpg";
 import { Button, Stack } from "react-bootstrap";
 import { Bell, PlusCircle, DoorClosed } from "react-bootstrap-icons";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-const UserImg = styled.img.attrs({ src: `${profilepic}` })`
-  width: 65px;
-  height: 65px;
-  border-radius: 10px;
+export const ProfilePic = styled.div`
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+  }
 `;
 
 const LoggedInUserCard = styled.div`
@@ -35,13 +38,16 @@ const LastSeen = styled.p`
 `;
 
 const UserHeadrCard = () => {
+  const { user } = useContext(AuthContext);
   return (
     <Stack direction="horizontal">
       <LoggedInUserCard>
         <Stack direction="horizontal">
           <Stack direction="horizontal">
-            <UserImg />
-            <UserName>Siya Samkelo</UserName>
+            <ProfilePic>
+              <img src={user?.data?.image} alt="profile" />
+            </ProfilePic>
+            <UserName>{user?.data?.username}</UserName>
           </Stack>
           <Stack direction="horizontal">
             <Bell style={{ transform: "scale(160%)", marginLeft: "40px" }} />

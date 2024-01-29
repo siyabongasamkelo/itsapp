@@ -8,7 +8,6 @@ const authRouter = require("./routes/authRoutes");
 const chatRouter = require("./routes/chatRoutes");
 const messageRouter = require("./routes/messageRoutes");
 const { Server } = require("socket.io");
-const messages = require("./models/messagesModel");
 
 const app = express();
 //setting up socketIo
@@ -44,19 +43,8 @@ mongoose
 io.on("connection", (socket) => {
   console.log(`user ${socket.id} joined`);
 
-  socket.on("join-room", async (chatRoom) => {
-    socket.join(chatRoom);
-    console.log(`User with ID: ${socket.id} joined room: ${chatRoom}`);
-  });
-
-  socket.on("send-message", async (message) => {
-    const newMessage = new messages(message);
-    await newMessage.save();
-
-    const chatRoom = message.chatRoom;
-
-    io.to(chatRoom).emit("get-live-message", message);
-  });
+  require("./socketControllers/JoinRoom")(io, socket);
+  require("./socketControllers/sendMessage")(io, socket);
 
   socket.on("disconnect", () => {
     console.log(`User Disconnencted: ${socket.id}`);

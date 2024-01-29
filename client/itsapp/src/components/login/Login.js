@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { baseUrl, postRequest } from "../../utils/Services";
 import { Form, FormHeader, FormStyles, Label } from "../FormStyles.styled";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 export const TextBoxs = styled(TextBox)`
   margin: 0;
@@ -20,6 +21,11 @@ const Login = () => {
     password: "",
   });
 
+  const notify = (err) =>
+    toast.error(
+      err || "the was a problem logging you in please try again later"
+    );
+
   const loginUser = async () => {
     setIsUserLoginLoading(true);
     setUserLoginError(null);
@@ -33,10 +39,11 @@ const Login = () => {
       if (response.error) return setUserLoginError(response.data.response.data);
 
       localStorage.setItem("User", JSON.stringify(response.data));
-      // setUser(response.data.data._id);
       setUser(response.data);
     } catch (err) {
       setIsUserLoginLoading(false);
+      notify(userLoginError);
+      console.log(err);
     }
   };
 

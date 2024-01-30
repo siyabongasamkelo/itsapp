@@ -7,10 +7,17 @@ const createChatRoom = async (req, res) => {
     if (!creater || !joiner)
       return res.status(400).json("creater & joiner are required");
 
-    const chatRoom = new chatRoomModel({ creater, joiner });
-    await chatRoom.save();
+    const createChatRoom = new chatRoomModel({ creater, joiner });
+    await createChatRoom.save();
 
-    res.status(200).json("chat room created successfully");
+    const chatRoom = await chatRoomModel
+      .findOne()
+      .where("creater")
+      .in([creater, joiner])
+      .where("joiner")
+      .in([creater, joiner]);
+
+    res.status(200).json(chatRoom);
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ error });

@@ -21,6 +21,8 @@ const io = new Server(server, {
   },
 });
 
+console.log(process.env.ENV);
+
 app.use(cors());
 app.use(express.json());
 app.use(helmet());

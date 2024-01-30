@@ -38,7 +38,7 @@ function App() {
       <Route>
         <Route index element={user ? <Chat /> : <Login />} />
         <Route path="/chat" element={user ? <Chat /> : <Login />} />
-        <Route path="/register" element={user ? <Register /> : <Login />} />
+        <Route path="/register" element={user ? <Register /> : <Chat />} />
         <Route path="/" element={<Login />} />
         <Route path="/*" element={<Login />} />
       </Route>

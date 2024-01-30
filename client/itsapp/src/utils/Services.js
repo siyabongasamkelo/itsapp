@@ -1,6 +1,9 @@
 import axios from "axios";
 
-export const baseUrl = "http://localhost:5000";
+export const baseUrl =
+  process.env.REACT_APP_ENVIRONMENT === "DEV"
+    ? "http://localhost:5000"
+    : "https://itsapp.onrender.com";
 export const postRequest = async (url, data) => {
   try {
     const sendRequest = await axios.post(url, data);

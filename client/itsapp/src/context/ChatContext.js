@@ -71,7 +71,6 @@ export const ChatContextProvider = ({ children, user }) => {
   //send live message
   const sendMessage = async () => {
     if (socket === null) return;
-    // if (!currentMessages) return;
     try {
       await socket.emit("send-message", currentMessages);
       updateCurrentMessage({ ...currentMessages, text: "" });
